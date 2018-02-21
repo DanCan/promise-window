@@ -56,6 +56,8 @@
    *
    * @param {String}   uri                    Destination URI
    * @param {Object}   config                 Configuration object. See description below.
+   * @param {Boolean}  config.overlayWindow   Defaults to true; If false then config.window will not automatically
+   *                                          generate the window open setting to be overlaid on your main window.
    * @param {Number}   config.width           Width of the popup window. Defaults to the current document width.
    * @param {Number}   config.height          Height of the popup window. Defaults to the current document height.
    * @param {Function} config.promiseProvider Promise provider. Should return a plain object containing 3 fields:
@@ -147,6 +149,7 @@
   PromiseWindow.defaultConfig = {
     width: html.clientWidth,
     height: html.clientHeight,
+    overlayWindow: true,
     window: {
       scrollbars: true
     },
@@ -252,7 +255,7 @@
    * @protected
    */
   prototype._getFeatures = function _getFeatures() {
-    var config = this._getCenteredPosition(this.config.width, this.config.height);
+    var config = this.config.overlayWindow ? this._getCenteredPosition(this.config.width, this.config.height) : {} ;
     for (var key in this.config.window) {
       if (this.config.window.hasOwnProperty(key)) {
         config[key] = this.config.window[key];
