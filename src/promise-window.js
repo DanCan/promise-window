@@ -255,7 +255,7 @@
    * @protected
    */
   prototype._getFeatures = function _getFeatures() {
-    var config = this.config.overlayWindow ? this._getCenteredPosition(this.config.width, this.config.height) : {} ;
+    var config = this._getCenteredPosition(this.config.width, this.config.height);
     for (var key in this.config.window) {
       if (this.config.window.hasOwnProperty(key)) {
         config[key] = this.config.window[key];
@@ -373,10 +373,11 @@
 
     this._windowOpen = true;
     var promise = this._createPromise();
+    var features = this.config.overlayWindow ? this._getFeatures() : '';
     this._window = root.open(
       this.uri,
       this.config.windowName,
-      this._getFeatures()
+      features
     );
     if (!this._window) {
       this._reject("blocked");
